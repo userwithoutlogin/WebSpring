@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Document   : loginform
+    Created on : Jul 27, 2018, 8:15:59 AM
+    Author     : root
+-->
+<div   
+    xmlns:jsp="http://java.sun.com/JSP/Page" 
+    xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+    <spring:message code="user_name" var="userName"/>
+    <spring:message code="password" var="password"/>
+    <spring:message code="sign_in" var="signIn"/>
+    <!-- any content can be specified here, e.g.: -->
+    
+    <form enctype="multipart/form-data">
+        <input type="hodden" name="${_csrf.ParameterName}" value="${_csrf.token}"/>
+        <div id="panel">
+            <div>${userName}</div>
+            <div><input type="text" name="username" /></div>
+        </div>
+        <div>
+            <div>${password}</div>        
+            <div><input type="password" name="password"/></div>
+        </div>    
+            <div id="login">    
+                <button type="signIn">${signIn}</button>    
+            </div>        
+    </form>
+</div>
