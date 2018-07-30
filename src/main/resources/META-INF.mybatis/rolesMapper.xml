@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE mapper PUBLIC 
+'-//mybatis.org//DTD Configuration 3.0//EN'
+ 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'
+>
+
+<mapper namespace="roles">
+    <resultMap id="map" type="Role">
+        <id property="id" column="r_id"/>
+        <result property="roleName" column="role_name"/>
+        <collection  property="users" column="username" 
+                     javaType="ArrayList" resultMap="users.map"
+                     fetchType="lazy"/>        
+    </resultMap>
+    
+     
+    <sql id="roleWithUsers" >
+        select r.r_id,r.role_name,
+        u.u_id,u.user_name , u.first_name, u.last_name,u.password,u.birth_date,u.enabled
+        from roles r 
+        left join users_roles ur on ur.role_id = r.r_id
+        left join users u on ur.user_id = u.u_id        
+    </sql>
+    <select id="findAll" resultMap="roles.map">
+        <include refid="roleWithUsers"/> 
+    </select>
+    <select id="findById" resultMap="roles.map" parameterType="Long" >
+        <include refid="roleWithUsers"/> where r.r_id = #{id}
+    </select> 
+    
+    <select id="findByRoleName" resultMap="roles.map" parameterType="String">
+        <include refid="roleWithUsers"/> where r.role_name = #{roleName}
+    </select> 
+    
+            
+    <select id="findSecTest" resultMap="roles.map" parameterType="String">
+        select r.role_name,u.user_name from roles r 
+                            left join users_roles ur on r.r_id = ur.role_id    
+                            left join users u on u.u_id =  ur.user_id   
+                            where u.user_name=#{userName}
+    </select>     
+    <insert id="save" parameterType="Role"  useGeneratedKeys="true" keyProperty="id">
+        insert into roles(role_name) values
+        (#{roleName})       
+    </insert>
+    
+    <update id="update" parameterType="Role">
+        update roles set
+          role_name=#{roleName}
+        where r_id=#{id}
+    </update>
+    <delete id="delete" parameterType="User">
+        delete from roles where r_id=#{id}
+    </delete>
+ 
+</mapper>

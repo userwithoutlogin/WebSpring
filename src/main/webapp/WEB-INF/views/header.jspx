@@ -4,11 +4,31 @@
     Created on : Jul 27, 2018, 8:34:21 AM
     Author     : root
 -->
-<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div id="header" 
+      xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:spring="http://www.springframework.org/tags" 
+     xmlns:sec="http://www.springframework.org/security/tags" 
+     version="2.0">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
-
+    <spring:message code="logout" var="logout"/>
+    <spring:message code="home_page" var="homePage"/>
+    <spring:url value="logout" var="logoutUrl"/>
+    <spring:url value="WebSpring" var="homeUrl"/>
     <!-- any content can be specified here, e.g.: -->
+    <sec:authorize access="isAuthenticated()">
+    <div class="header_menu">
+        <div class="logout">
+            <a href="${homeUrl}/j_spring_security_logout" >${logout}</a>
+        </div>
+    </div>
+    <div class="main_page">
+        <a href="/${homeUrl}" >${homePage}</a>
+    </div>   
+
+	 
+        
+    </sec:authorize>
     HEADER
 
 </div>

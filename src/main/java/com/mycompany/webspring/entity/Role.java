@@ -5,16 +5,18 @@
  */
 package com.mycompany.webspring.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author root
  */
-public class Role {
+public class Role implements Serializable{
+    
     private Long id;
     private String roleName;
-    private Boolean enabled;
+     
     List<User> users;
 
     public List<User> getUsers() {
@@ -43,12 +45,6 @@ public class Role {
 
      
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
+     
     
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="
+                    http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security.xsd
+">
+    
+    <sec:http auto-config="true" use-expressions="true">
+        <sec:intercept-url access="isAuthenticated()" pattern="/user/*"/>
+        <!--<sec:intercept-url access="isAuthenticated()" pattern="/admin/*"/>-->
+        <sec:form-login default-target-url="/user/profile" login-page="/login" 
+                password-parameter="password"
+                username-parameter="username"
+                
+                authentication-failure-url="/login?error"/>
+        <sec:logout  logout-success-url="/login" />
+         
+        <sec:csrf/>
+    </sec:http>
+    
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:jdbc-user-service data-source-ref="dataSource" 
+            users-by-username-query="
+                            select u.user_name as username ,u.password as password,u.enabled as enabled  
+                                  from users u  where u.user_name=?"
+            authorities-by-username-query="
+                            select u.user_name as username,r.role_name as role from users u
+                            inner join users_roles ur on u.u_id = ur.user_id
+                            inner join roles r on ur.role_id=r.r_id   
+                            where u.user_name=?"    
+            />
+<!--            <sec:user-service>
+                 <sec:user name="user" password="user" authorities="ROLE_USER"/>
+            </sec:user-service>-->
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+</beans>

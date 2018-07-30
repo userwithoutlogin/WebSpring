@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE configuration PUBLIC '-//mybatis.org//DTD Configuration 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+
+<configuration>
+    <settings>
+      <setting name="lazyLoadingEnabled" value="true"/>
+       
+    </settings>       
+    
+    <typeAliases>
+       <typeAlias alias="User" type="com.mycompany.webspring.entity.User"/>
+       <typeAlias alias="Role" type="com.mycompany.webspring.entity.Role"/>
+    </typeAliases>   
+
+    <mappers>
+        <mapper resource="META-INF.mybatis/usersMapper.xml"/> 
+        <mapper resource="META-INF.mybatis/rolesMapper.xml"/>
+    </mappers>
+</configuration>

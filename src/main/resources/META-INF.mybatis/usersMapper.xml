@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<!DOCTYPE mapper PUBLIC '-//Apache Software Foundation//DTD   Configuration 3.0//EN'
+ 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="users">
+    <resultMap type="User" id="map">
+         
+        <id property="id" column="u_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="firstName" column="first_name"/>
+        <result property="lastName" column="last_name"/>
+        <result property="birthDate" column="birth_date" javaType="Date"/>
+        <result property="enabled" column="enabled" javaType="Boolean"/>
+        <result property="photo" column="photo"   jdbcType="BLOB" />
+        <collection property="roles" column="user_name" 
+                    javaType="ArrayList" resultMap="roles.map"
+                    fetchType="lazy"
+        />
+    </resultMap>    
+
+      <sql id="userWithRole" >
+        select  u.u_id,u.user_name , u.first_name, u.last_name,u.password,u.birth_date,u.enabled,u.photo, 
+        r.r_id, r.role_name
+        from users u 
+         left join users_roles ur on u.u_id = ur.user_id
+         left join roles r on r.r_id = ur.role_id          
+    </sql>
+    <select id="findAll" resultMap="users.map">
+        <include refid="userWithRole"/> 
+    </select>
+    <select id="findByUserName" resultMap="users.map" parameterType="String">
+        <include refid="userWithRole"/> where u.user_name = #{userName}
+    </select> 
+    <select id="findById" resultMap="users.map" parameterType="Long">
+        <include refid="userWithRole"/> where u.u_id = #{id}
+    </select> 
+    
+    <insert id="save" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+        insert into users(first_name,last_name,user_name,password
+        <if test="#{birthDate}!=null">,birth_date</if>
+        <if test="#{photo}!=null">,photo</if>
+        ,enabled) values
+        (#{firstName},#{lastName},#{userName},#{password}
+        <if test="#{birthDate}!=null">,#{birthDate}</if>
+        <if test="#{photo}!=null">,#{photo}</if>
+        ,#{enabled})       
+    </insert>
+    
+    <update id="update" parameterType="User">
+        update users set
+        first_name=#{firstName},last_name=#{lastName},
+        password=#{password}, enabled=#{enabled},birth_date=#{birthDate},
+        photo=#{photo}
+        where u_id=#{id}
+    </update>
+    <delete id="delete" parameterType="User">
+        delete from users where u_id=#{id}
+    </delete>
+</mapper>

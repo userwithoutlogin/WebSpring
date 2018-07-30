@@ -4,28 +4,54 @@
     Created on : Jul 27, 2018, 8:15:59 AM
     Author     : root
 -->
-<div   
+<div id="login"  
     xmlns:jsp="http://java.sun.com/JSP/Page" 
-    xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    xmlns:c ="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/tags" 
+    xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
     <spring:message code="user_name" var="userName"/>
     <spring:message code="password" var="password"/>
     <spring:message code="sign_in" var="signIn"/>
+    <spring:message code="welcome" var="welcome"/>
     <!-- any content can be specified here, e.g.: -->
+    <spring:url value="j_spring_security_check" var="signInUrl"/>
     
-    <form enctype="multipart/form-data">
-        <input type="hodden" name="${_csrf.ParameterName}" value="${_csrf.token}"/>
-        <div id="panel">
+    <c:if test="${message != null}">
+        <div class="${message.type}">
+            <div>${message.text}</div>
+        </div>
+    </c:if>    
+    <sec:authorize access="isAnonymous()">
+    <div class="login_block">
+       
+    <form name='loginForm'  action="${signInUrl}" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div class="panel">
             <div>${userName}</div>
             <div><input type="text" name="username" /></div>
         </div>
-        <div>
+        <div class="panel">
             <div>${password}</div>        
             <div><input type="password" name="password"/></div>
         </div>    
-            <div id="login">    
-                <button type="signIn">${signIn}</button>    
-            </div>        
+        <div class="login_button">    
+                   
+                <input name="submit" type="submit"
+				  value="${signIn}" />
+        </div>
+         
     </form>
+        
+    </div>
+    </sec:authorize>
+   
+    <div class="welcome_block">       
+    <sec:authorize access="isAuthenticated()">
+        <div class="welcome_block">
+           <span id="welcome_message">${welcome} </span> <sec:authentication property="principal.username"/>
+        </div>
+    </sec:authorize>
+    </div>    
 </div>

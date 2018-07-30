@@ -4,15 +4,65 @@
     Created on : Jul 27, 2018, 10:04:31 AM
     Author     : root
 -->
-<div xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div 
+        xmlns:jsp="http://java.sun.com/JSP/Page" 
+        xmlns:c="http://java.sun.com/jsp/jstl/core" 
+        xmlns:spring="http://www.springframework.org/tags" 
+        xmlns:sec="http://www.springframework.org/security/tags" 
+        
+        version="2.0">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
-
+    <spring:message code="first_name" var="firstName"/>
+    <spring:message code="user_name" var="userName"/>
+    <spring:message code="last_name" var="lastName"/>
+    <spring:message code="birth_date" var="birthDate"/>
+    <spring:message code="roles" var="roles"/>
+    <spring:message code="upload_image" var="uploadImg"/>
+    <spring:url value="WebSpring" var="homeUrl"/>
     <!-- any content can be specified here, e.g.: -->
-    <jsp:element name="text">
-        <jsp:attribute name="lang">EN</jsp:attribute>
-        <jsp:body>Hello World!</jsp:body>
-    </jsp:element>
-SHOW
+      <div class="user_panel">
+          <div class="user_photo">
+              <img src="/${homeUrl}/user/${user.id}/photo"/>
+              <div class="upload">
+                  <a href="">${uploadImg}</a>
+              </div>    
+          </div> 
+          <div class="user_info">
+             <div class="item">
+                  <div>  
+                      <span>${userName}</span>   
+                      
+                      <c:if test="${ openEdit eq true}">
+                      <span><a href="/${homeUrl}/user/${user.id}?form">edit</a></span>  
+                      </c:if>
+                      
+                  </div>
+                  <div>${user.userName}</div>
+             </div>
+             <div class="item">
+                   <div>${firstName}</div>
+                   <div>${user.firstName}</div>
+             </div>
+             <div class="item">
+                   <div>${lastName}</div>
+                   <div>${user.lastName}</div>
+             </div>
+             <div class="item">
+                   <div>${birthDate}</div>
+                   <div>${user.birthDate}</div>
+             </div>
 
+          </div>
+          <div class="user_roles">
+              <div>${roles}</div> 
+              <div>
+              <c:forEach items="${user.roles}" var="role">
+                  <div class="item">
+                      ${role.roleName}
+                  </div>
+              </c:forEach>
+              </div>    
+          </div>    
+      </div>    
 </div>

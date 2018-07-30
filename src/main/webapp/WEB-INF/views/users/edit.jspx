@@ -4,14 +4,97 @@
     Created on : Jul 27, 2018, 10:04:47 AM
     Author     : root
 -->
-<div xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div 
+        xmlns:jsp="http://java.sun.com/JSP/Page" 
+        xmlns:c="http://java.sun.com/jsp/jstl/core" 
+        xmlns:spring="http://www.springframework.org/tags"        
+        xmlns:form="http://www.springframework.org/tags/form"        
+        xmlns:sec="http://www.springframework.org/security/tags"        
+        version="2.0">
 
     <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+    <spring:message code="create_user" var="createUser"/>
+    <spring:message code="update_user" var="updateUser"/>
+    <spring:message code="upload_image" var="uploadImg"/>
+    <spring:message code="first_name" var="firstName"/>
+    <spring:message code="last_name" var="lastName"/>
+    <spring:message code="birth_date" var="birthDate"/>
+    <spring:message code="user_name" var="userName"/>
+    <spring:message code="enter_old_password" var="enterOldPassword"/>
+    <spring:message code="retry_new_password" var="retryNewPassword"/>
+    <spring:message code="enter_new_password" var="enterNewPassword"/>
+    <spring:message code="save" var="save"/>
+    <spring:url value="WebSpring" var="homeUrl"/>
+    <spring:url value="${homeUrl}/user/create" var="userCreateUrl"/>
+    <spring:url value="${homeUrl}/user/${user.id}/edit" var="userEditUrl"/>
+    <spring:eval expression="user.id == null ? createUser:updateUser" var="title"/>    
+    <spring:eval expression="user.id == null ? userCreateUrl:userEditUrl" var="userUrl"/>    
+     <div class="edit_user">
+        <div>${title}</div>
+        
+         
+       <form:form action="/${userUrl}" modelAttribute="user" id="userUpdateForm" method="post"
+                   enctype="multipart/form-data">
+        <c:if test="${message != null}">
+            <div class="${message.type}">
+                <div>${message.text}</div>
+            </div>
+        </c:if>
+            <div>    
+                <div class="update_user_info">
+                    
+                    <div>
+                        <form:label path="userName">${userName}</form:label>
+                        <form:input path="userName"/>
+                        <form:errors path="userName"/>
+                    </div>
+                    <div>
+                        <form:label path="firstName">${firstName}</form:label>
+                        <form:input path="firstName"/>
+                        <form:errors path="firstName"/>
+                    </div>
+                    <div>
+                        <form:label path="lastName">${lastName}</form:label>
+                        <form:input path="lastName"/>
+                        <form:errors path="lastName"/>
+                    </div>
+                    <div>
+                        <form:label path="birthDate">${birthDate}</form:label>
+                        <form:input path="birthDate"/>
+                        <form:errors path="birthDate"/>
+                    </div>
+                    <div>
+                        <label for="file">${uploadImg}</label>
+                        <input type="file" name="file"/>
+                    </div>
+                        
+                </div>  
+                <div class="update_password">
+                    <c:if test="${ not empty user.id }">
+                        <input type="password" name="oldPassword" value="${user.password}" id="hiddenPasswordField"/>                            
+                        <div> 
+                            <div>${enterOldPassword}</div>
+                            <div><input type="password" name="retriedOldPassword"/></div>
+                        </div>    
+                    </c:if>   
+                        <div> 
+                            <div>${enterNewPassword}</div>
+                            <div><input type="password" name="newPassword"/></div>
+                        </div>    
+                        <div> 
+                            <div>${retryNewPassword}</div>
+                            <div><input type="password" name="retriedNewPassword"/></div>
+                        </div>    
+                    
+                </div>
+                     <div>
 
-    <!-- any content can be specified here, e.g.: -->
-    <jsp:element name="text">
-        <jsp:attribute name="lang">EN</jsp:attribute>
-        <jsp:body>Hello World!</jsp:body>
-    </jsp:element>
-        EDIT
+                    <button type="submit">${save}</button>
+                </div>    
+            </div> 
+                
+                
+        </form:form>
+        
+    </div>
 </div>

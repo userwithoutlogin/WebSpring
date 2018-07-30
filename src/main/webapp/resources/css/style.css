@@ -1,0 +1,85 @@
+#login{
+display: flex;
+justify-content: center;
+padding: 30px;
+}
+#login .login_block{
+  background: rgba(47,52,80,.7);
+padding: 20px 10px;
+border-radius: 5px;
+font-family: sans-serif;
+box-shadow: 4px 5px 6px black;
+}
+#login .login_block .panel div:first-child{
+    font-size: 20px;
+color: white;
+font-weight: bold;
+padding-bottom: 5px;
+}
+#login .login_block .panel {
+    margin-bottom: 10px;
+}
+#login .login_block .panel input{
+border: none;
+border-radius: 2px;
+height: 30px;
+}
+.login_button {
+    text-align: center;
+padding-top: 17px;
+}
+.login_button input{
+    background: rgba(93,199,72,.7);
+padding: 10px 35px;
+border:none;
+border-radius: 5px;
+font-family: sans-serif;
+font-weight: bold;
+color:white;
+font-size: 20px;
+cursor: pointer;
+}
+
+
+
+.users_list_panel {
+    margin: 0 27%;
+}
+.panel_header, .panel_body,.panel_body_item{
+    display: flex;
+justify-content: space-between;
+padding: 0 14px;
+}
+
+.user_panel{
+    display: flex;
+justify-content: space-around;
+margin: 0 10%;
+}
+.user_photo,.user_roles{
+    flex-grow: 1;
+}
+.user_info{
+    flex-grow: 2;
+}
+
+.user_panel .item{
+    padding: 5px 10px;
+    font-family: sans-serif;
+}
+.user_panel .item div:first-child{
+    font-size: 23px;
+}
+.user_panel .item div:last-child{
+    padding-left: 28px;
+}
+
+.update_user div{
+    display: flex;
+flex-direction: column;
+padding: 5px 10px;
+}
+@media all and (max-width: 500px){
+   .user_panel,.update_user{flex-direction: column;}
+   
+}
